@@ -2,7 +2,7 @@
 
 ## Description
 
-A Docker setup for running Hoppscotch with a PostgreSQL database.
+A Docker setup for running [Hoppscotch](https://github.com/hoppscotch/hoppscotch) with a PostgreSQL database.
 
 ## Requirements
 
