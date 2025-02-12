@@ -1,0 +1,46 @@
+services:
+  # The main Hoppscotch service running all necessary components in one container
+  hoppscotch-aio:
+    container_name: hoppscotch-aio
+    image: hoppscotch/hoppscotch
+    env_file:
+      - ./.env # Loads environment variables from .env file
+    environment:
+      # Database connection string for Prisma
+      - DATABASE_URL=postgresql://postgres:testpass@hoppscotch-db:5432/hoppscotch?connect_timeout=300
+    depends_on:
+      hoppscotch-db:
+        condition: service_healthy # Ensures database is ready before starting the app
+    ports:
+      - "3000:3000" # Frontend/UI
+      - "3100:3100" # Admin Panel
+      - "3170:3170" # Backend API
+    command: >
+      sh -c "pnpx prisma migrate deploy && node /usr/src/app/aio_run.mjs"
+      # Applies database migrations before running the backend service
+
+  # PostgreSQL database service for Hoppscotch
+  hoppscotch-db:
+    image: postgres:15
+    ports:
+      - "5432:5432" # Exposes PostgreSQL database on port 5432
+    user: postgres
+    environment:
+      # PostgreSQL default user and credentials
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: testpass  # ⚠️ Change this for security
+      POSTGRES_DB: hoppscotch # Database name
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "sh -c 'pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}'"
+        ]
+      interval: 5s  # Checks every 5 seconds
+      timeout: 5s
+      retries: 10 # Tries 10 times before marking service as unhealthy
+    volumes:
+      - hoppscotch-db:/var/lib/postgresql/data # Persists database data across container restarts
+
+volumes:
+  hoppscotch-db: # Named volume for PostgreSQL data storage
