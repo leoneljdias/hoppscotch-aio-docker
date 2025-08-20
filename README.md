@@ -55,8 +55,8 @@ SESSION_SECRET="your-secure-session-secret-here"
 DATA_ENCRYPTION_KEY="your-32-character-encryption-key-here"
 
 # Your domain (if using a custom domain)
-HOPPSCOTCH_HOST=localhost:3000
-VITE_BASE_URL=http://localhost:3000
+HOPPSCOTCH_HOST=localhost:5000
+VITE_BASE_URL=http://localhost:5000
 ```
 
 ### 3. Start the Services
@@ -73,9 +73,8 @@ podman-compose up -d
 
 ### 4. Access Your Instance
 
-- **Hoppscotch Web App**: [http://localhost:3000](http://localhost:3000)
-- **Admin Panel**: [http://localhost:3100](http://localhost:3100)
-- **API Endpoint**: [http://localhost:3170](http://localhost:3170)
+- **Hoppscotch Web App**: [http://localhost:5000](http://localhost:5000)
+- **Admin Panel**: [http://localhost:5000](http://localhost:5000/admin)
 
 ## Connecting Hoppscotch Desktop App
 
@@ -164,7 +163,7 @@ docker compose restart
 
 **Desktop app won't connect:**
 - Verify the instance URL is correct and accessible
-- Check that ports 3000, 3100, and 3170 are not blocked
+- Check that ports are not blocked
 - Ensure CORS origins are properly configured in `WHITELISTED_ORIGINS`
 
 ### Data Backup
