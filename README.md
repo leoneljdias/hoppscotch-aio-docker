@@ -133,6 +133,8 @@ For production deployments:
    ```
 
 2. **Use HTTPS**: Configure SSL/TLS with a reverse proxy like nginx or traefik
+   - When using HTTPS, update `VITE_BACKEND_WS_URL` to use `wss://` instead of `ws://`
+   - Example: `VITE_BACKEND_WS_URL=wss://yourdomain.com/backend/graphql`
 3. **Secure database**: Change the default PostgreSQL password
 4. **Configure firewall**: Restrict access to necessary ports only
 5. **Regular backups**: Backup your PostgreSQL data volume
@@ -165,6 +167,11 @@ docker compose restart
 - Verify the instance URL is correct and accessible
 - Check that ports are not blocked
 - Ensure CORS origins are properly configured in `WHITELISTED_ORIGINS`
+
+**TypeError: Cannot read properties of undefined (reading 'startsWith'):**
+- This error is typically caused by WebSocket URL protocol mismatch
+- Ensure `VITE_BACKEND_WS_URL` uses `ws://` for HTTP deployments or `wss://` for HTTPS deployments
+- Example: For HTTP use `ws://localhost:5000/backend/graphql`, for HTTPS use `wss://yourdomain.com/backend/graphql`
 
 ### Data Backup
 
